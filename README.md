@@ -2,13 +2,12 @@
 
 Capture audio from an analog microphone on your [Raspberry Pi Pico](https://www.raspberrypi.org/products/raspberry-pi-pico/) or any [RP2040](https://www.raspberrypi.org/products/rp2040/) based board. 🎤
 
-Modified the the `usb_microphone` example  so that the example creates a USB Microphone device using the TinyUSB library and captures data from an analog microphone via the ADC (rather than PDM) using a sample rate of 48 kHz, to be sent the to PC as a USB audio device.
-
+Modified the the `usb_microphone` example  so that the example creates a USB Microphone device using the TinyUSB library and captures data from an analog microphone via the ADC (rather than PDM) using a sample rate of 48 kHz, to be sent the to PC as a USB audio device. i.e. this is an audio passthrough from ADC to USB (one direction only). Also included is MIDI IO. This would be useful for a synth that has USB audio out, is sending USB MIDI, and is controlled by USB MIDI.
 
 Forked from: https://github.com/ArmDeveloperEcosystem/microphone-library-for-pico
 Based on this article: https://www.hackster.io/sandeep-mistry/create-a-usb-microphone-with-the-raspberry-pi-pico-cc9bd5
 
-In the oprigianl the analog microphone works and outputs to serial. The only problem is that the example that works with USB audio is designed for a PDM microphone. So this version was made to replace the PDM components with Analog (ADC) microphone calls. This was straight forward, but some changes needed to be made: 
+In the origianl the analog microphone works and outputs to serial. The only problem is that the example that works with USB audio is designed for a PDM microphone. So this version was made to replace the PDM components with Analog (ADC) microphone calls. This was straight forward, but some changes needed to be made: 
 
 - the CMAKE file to have it point to the analog_microphone library instead of the PDM library
 - The bias was disabled
