@@ -2,6 +2,8 @@
 
 Capture audio from an analog microphone on your [Raspberry Pi Pico](https://www.raspberrypi.org/products/raspberry-pi-pico/) or any [RP2040](https://www.raspberrypi.org/products/rp2040/) based board. 🎤
 
+I am not planning to support this code but post it in case it is helpful to anyone.
+
 Modified the the `usb_microphone` example  so that the example creates a USB Microphone device using the TinyUSB library and captures data from an analog microphone via the ADC (rather than PDM) using a sample rate of 48 kHz, to be sent the to PC as a USB audio device. i.e. this is an audio passthrough from ADC to USB (one direction only). Also included is MIDI IO. This would be useful for a synth that has USB audio out, is sending USB MIDI, and is controlled by USB MIDI.
 
 Forked from: https://github.com/ArmDeveloperEcosystem/microphone-library-for-pico
