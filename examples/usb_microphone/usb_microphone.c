@@ -36,9 +36,7 @@ uint8_t clkValid;
 audio_control_range_2_n_t(1) volumeRng[CFG_TUD_AUDIO_FUNC_1_N_CHANNELS_TX+1]; 			// Volume range state
 audio_control_range_4_n_t(1) sampleFreqRng; 						// Sample frequency range state
 
-static usb_microphone_tx_ready_handler_t usb_microphone_tx_ready_handler = NULL;
-
-/*------------- MAIN -------------*/
+///------------- MAIN -------------
 void usb_microphone_init()
 {
   tusb_init();
@@ -336,3 +334,4 @@ bool tud_audio_set_itf_close_EP_cb(uint8_t rhport, tusb_control_request_t const 
 
   return true;
 }
+

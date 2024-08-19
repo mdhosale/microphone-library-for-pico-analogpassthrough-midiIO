@@ -9,7 +9,7 @@ add_executable(usb_microphone
 
 target_include_directories(usb_microphone PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 
-target_link_libraries(usb_microphone PRIVATE tinyusb_device tinyusb_board pico_pdm_microphone)
+target_link_libraries(usb_microphone PRIVATE tinyusb_device tinyusb_board pico_analog_microphone)
 
 # create map/bin/hex/uf2 file in addition to ELF.
 pico_add_extra_outputs(usb_microphone)

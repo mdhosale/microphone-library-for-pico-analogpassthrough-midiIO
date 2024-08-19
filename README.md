@@ -1,7 +1,35 @@
 # Microphone Library for Pico
 
-Capture audio from a microphone on your [Raspberry Pi Pico](https://www.raspberrypi.org/products/raspberry-pi-pico/) or any [RP2040](https://www.raspberrypi.org/products/rp2040/) based board. 🎤
+Capture audio from an analog microphone on your [Raspberry Pi Pico](https://www.raspberrypi.org/products/raspberry-pi-pico/) or any [RP2040](https://www.raspberrypi.org/products/rp2040/) based board. 🎤
 
+Modified the the `usb_microphone` example  so that the example creates a USB Microphone device using the TinyUSB library and captures data from an analog microphone via the ADC (rather than PDM) using a sample rate of 48 kHz, to be sent the to PC as a USB audio device.
+
+
+Forked from: https://github.com/ArmDeveloperEcosystem/microphone-library-for-pico
+Based on this article: https://www.hackster.io/sandeep-mistry/create-a-usb-microphone-with-the-raspberry-pi-pico-cc9bd5
+
+In the oprigianl the analog microphone works and outputs to serial. The only problem is that the example that works with USB audio is designed for a PDM microphone. So this version was made to replace the PDM components with Analog (ADC) microphone calls. This was straight forward, but some changes needed to be made: 
+
+- the CMAKE file to have it point to the analog_microphone library instead of the PDM library
+- The bias was disabled
+- in analog_microphone.c  on line 197 the code was changed to mask, shift, and scale the data coming from the DMA so it would match the USB data type:
+```
+    for (int i = 0; i < samples; i++) {
+        *out++ = ((*in++ & 0xFFF) - 2048)*64;
+    }
+```
+
+In order for the analog mucrophone to work at 48kHz it was necessary to modify tusb_config.h in line 110:
+#define CFG_TUD_AUDIO_EP_SZ_IN                                        (48 + 1) * CFG_TUD_AUDIO_FUNC_1_N_BYTES_PER_SAMPLE_TX * CFG_TUD_AUDIO_FUNC_1_N_CHANNELS_TX      // 48 Samples (48 kHz) x 2 Bytes/Sample x 1 Channel
+
+
+MIDI IO has been added as well.
+See  "Getting Started with the Raspberry Pi Pico C/C++ SDK and TinyUSB MIDI" available at:
+https://diyelectromusic.com/2022/10/04/getting-started-with-the-raspberry-pi-pico-c-c-sdk-and-tinyusb-midi/
+for notes on the implementation.
+
+
+Note: the PDM to serial example was left untouched.
 
 ## Hardware
 
@@ -68,9 +96,14 @@ make
 
 ## Acknowledgements
 
-This project was created on behalf of the [Arm Software Developers](https://developer.arm.com/) team, follow them on Twitter: [@ArmSoftwareDev](https://twitter.com/armsoftwaredev) and YouTube: [Arm Software Developers](https://www.youtube.com/channel/UCHUAckhCfRom2EHDGxwhfOg) for more resources!
+The original project was created on behalf of the [Arm Software Developers](https://developer.arm.com/) team, follow them on Twitter: [@ArmSoftwareDev](https://twitter.com/armsoftwaredev) and YouTube: [Arm Software Developers](https://www.youtube.com/channel/UCHUAckhCfRom2EHDGxwhfOg) for more resources!
 
-The [OpenPDM2PCM](https://os.mbed.com/teams/ST/code/X_NUCLEO_CCA02M1//file/53f8b511f2a1/Middlewares/OpenPDM2PCM/) library is used to filter raw PDM data into PCM. The [TinyUSB](https://github.com/hathach/tinyusb) library is used in the `usb_microphone` example.
+forked from: https://github.com/ArmDeveloperEcosystem/microphone-library-for-pico
+which is based on the TinyUSB audio_test example:
+https://github.com/hathach/tinyusb/tree/master/examples/device/audio_test
+
+MIDI set-up is based on "Getting Started with the Raspberry Pi Pico C/C++ SDK and TinyUSB MIDI" available at:
+https://diyelectromusic.com/2022/10/04/getting-started-with-the-raspberry-pi-pico-c-c-sdk-and-tinyusb-midi/
 
 ---
 
