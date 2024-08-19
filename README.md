@@ -9,7 +9,7 @@ Modified the the `usb_microphone` example  so that the example creates a USB Mic
 Forked from: https://github.com/ArmDeveloperEcosystem/microphone-library-for-pico
 Based on this article: https://www.hackster.io/sandeep-mistry/create-a-usb-microphone-with-the-raspberry-pi-pico-cc9bd5
 
-In the origianl the analog microphone works and outputs to serial. The only problem is that the example that works with USB audio is designed for a PDM microphone. So this version was made to replace the PDM components with Analog (ADC) microphone calls. This was straight forward, but some changes needed to be made: 
+In the original the analog microphone works and outputs to serial. The only problem is that the example that works with USB audio is designed for a PDM microphone. So this version was made to replace the PDM components with Analog (ADC) microphone calls. This was straight forward, but some changes needed to be made: 
 
 - the CMAKE file to have it point to the analog_microphone library instead of the PDM library
 - The bias was disabled
